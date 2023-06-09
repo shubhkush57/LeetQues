@@ -19,20 +19,20 @@ public:
         int sum = cumsum[n-1];
         int val = rand()%sum;
         // find the upperbound and return ti's index..
-        int indx = upper_bound(cumsum.begin(),cumsum.end(),val)-cumsum.begin();
-        // int start = 0;
-        // int end = n-1;
-        // int indx = -1;
-        // while(start<=end){
-        //     int mid = start+(end-start)/2;
-        //     if(cumsum[mid]>=mid){
-        //         indx = mid;
-        //         end = mid-1;
-        //     }
-        //     else{
-        //         start=  mid+1;
-        //     }
-        // }
+        // int indx = upper_bound(cumsum.begin(),cumsum.end(),val)-cumsum.begin();
+        int start = 0;
+        int end = n-1;
+        int indx = -1;
+        while(start<=end){
+            int mid = start+(end-start)/2;
+            if(cumsum[mid]>val){
+                indx = mid;
+                end = mid-1;
+            }
+            else{
+                start=  mid+1;
+            }
+        }
         return indx;
     }
 };
