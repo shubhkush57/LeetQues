@@ -85,7 +85,10 @@ bool isCircular(Node *head)
        fast = fast->next->next;
        slow = slow->next;
        if(fast == slow){
-           return true;
+           // entry point must be head;
+           if(slow == head){
+               return true;
+           }
        }
    }
    return false;
