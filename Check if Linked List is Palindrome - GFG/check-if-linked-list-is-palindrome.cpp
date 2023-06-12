@@ -32,9 +32,23 @@ struct Node {
 class Solution{
   public:
     //Function to check whether the list is palindrome.
+    Node* reverseLL(Node* head){
+        // it's reverse the linked list and return the pointer of hte revrse linked list..
+        Node* prev = NULL;
+        Node* temp = head;
+        while(temp != NULL){
+            Node* t =temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp= t;
+        }
+        return prev;
+    }
     bool isPalindrome(Node *head)
     {
         //Your code here
+        /* 
+        you need to solve it in o(1) space..
         vector<int>v;
         Node* temp = head;
         while(temp != NULL){
@@ -46,6 +60,22 @@ class Solution{
         while(temp != NULL){
             if(temp->data != v[i])return false;
             temp = temp->next; i++;
+        }
+        return true;
+        */
+        Node* fast = head;
+        Node* slow = head;
+        while(fast != NULL && fast->next != NULL){
+            fast = fast->next->next;
+            slow = slow->next;
+        }
+        slow = reverseLL(slow);
+        while(slow != NULL){
+            if(head->data != slow->data){
+                return false;
+            }
+            slow = slow->next;
+            head = head->next;
         }
         return true;
         
