@@ -46,48 +46,28 @@ struct Node
 class Solution{
   public:
     //Function to merge K sorted linked list.
+    #define pp pair<int,Node*>
     Node * mergeKLists(Node *arr[], int k)
     {
            // Your code here
-           vector<Node*>v;
-           // i will be having pointer to each of the node.
-           int siz = 0;
+           priority_queue<pp,vector<pp>,greater<pp>>pq; // to find out the minimum.
+           Node* temp = new Node(0);
+           Node* ans = temp;
            for(int i = 0;i<k;i++){
-               if(arr[i]!= NULL){
-                   v.push_back(arr[i]);
-                   // now want to now it's size.
-                   Node* temp = arr[i];
-                   int count = 0;
-                   while(temp != NULL){
-                       count++;
-                       temp = temp->next;
-                   }
-                   siz+= count;
+               if(arr[i] != NULL){
+                   pq.push({arr[i]->data,arr[i]});
                }
-               
            }
-           // we are at the begninig.
-           Node* ptr = new Node(0);
-           Node* ans = ptr;
-           while(siz>0){
-               // if we have k linked list.
-               // find the minimum among all of tem
-               int indx;
-               int val = INT_MAX;
-               for(int i = 0;i<v.size();i++){
-                   if(v[i] != NULL){
-                       if(val > v[i]->data){
-                           indx = i;
-                           val = v[i]->data;
-                       }
-                   }
+           while(!pq.empty()){
+               pp t = pq.top();pq.pop();
+               temp->next = t.second;
+               Node* re = t.second->next;
+               t.second->next = NULL;
+               temp = temp->next;
+               // we i have o push it's next elment.
+               if(re != NULL){
+                   pq.push({re->data,re});
                }
-               Node* nextcoming = v[indx]->next;
-               ptr->next = v[indx];
-              v[indx]->next = NULL;
-               ptr = ptr->next;
-               v[indx] = nextcoming;
-               siz--;
            }
            return ans->next;
     }
