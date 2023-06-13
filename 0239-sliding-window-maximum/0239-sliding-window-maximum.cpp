@@ -1,40 +1,24 @@
-class MyDeqeue{
-  public:
-    deque<int>dq;
-    void push(int val){
-        // it's pushes the elements
-        while(!dq.empty() && dq.back()<val){
-            dq.pop_back();
-        }
-        dq.push_back(val);
-        return;
-    }
-    int front(){
-        return dq.empty()?-1: dq.front();
-    }
-    void pop(int val){
-        if(dq.front() == val){
-            dq.pop_front();
-        }
-        return;
-    }
-};
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        MyDeqeue dq;
+        // we will be storing the values of the pairs. and we want our maximum in the range from . 
+        // j-x+1 ==k
+        //x = j+1-k so x should be greater of equal to this ..
         int n = nums.size();
+        priority_queue<pair<int,int>>pq;
         int i = 0;
         int j = 0;
         vector<int>ans;
         for(;j<k;j++){
-            dq.push(nums[j]);
+            pq.push({nums[j],j});
         }
-        ans.push_back(dq.front());
+        ans.push_back(pq.top().first);
         while(j<n){
-            dq.push(nums[j]);
-            dq.pop(nums[i]);
-            ans.push_back(dq.front());
+            pq.push({nums[j],j});
+            while(!pq.empty() && pq.top().second < (j-k+1)){
+                pq.pop();
+            }
+            ans.push_back(pq.top().first);
             j++;
             i++;
         }
