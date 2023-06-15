@@ -47,6 +47,17 @@ class Trie{
         char t = word[i];
         return searchUtil(root->children[t-'a'],word,i+1);
     }
+    bool prefixSearchUtil(TrieNode* root,string &word,int i){
+        int n = word.size();
+        if(root == NULL){
+            return false;
+        }
+        if(i == n){
+            return true;
+        }
+        char t = word[i];
+        return prefixSearchUtil(root->children[t-'a'],word,i+1);
+    }
     void insert(string word){
         int i = 0;
         insertUtil(root,word,i);
@@ -55,6 +66,10 @@ class Trie{
     bool search(string word){
         int i = 0;
         return searchUtil(root,word,i);
+    }
+    bool prefixSearch(string word){
+        int i = 0;
+        return prefixSearchUtil(root,word,i);
     }
 };
 class MagicDictionary {
@@ -75,14 +90,17 @@ public:
         int n = s.size();
         for(int i = 0;i<n;i++){
             char t = s[i];
-            for(char j = 'a';j<='z';j++){
-                if(j != t){
-                    s[i] = j;
-                    if(trieObj->search(s)){
-                        return true;
+            if(trieObj->prefixSearch(s.substr(0,i))){
+                for(char j = 'a';j<='z';j++){
+                    if(j != t){
+                        s[i] = j;
+                        if(trieObj->search(s)){
+                            return true;
+                        }
                     }
                 }
             }
+            
             s[i] = t;
         }
         return false;
