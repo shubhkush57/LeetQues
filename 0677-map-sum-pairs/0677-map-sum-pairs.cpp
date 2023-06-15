@@ -24,6 +24,7 @@ class Trie{
         if(root == NULL)return;
         if(i == n){
             root->isTerminal = true;
+            root->sum = num;
             return;
         }
         char t = word[i];
@@ -35,7 +36,6 @@ class Trie{
             child = new TrieNode(t);
             root->children[t-'a'] = child;
         }
-        child->sum += num;
         insertUtil(child,word,i+1,num);
         return;
     }
@@ -44,13 +44,27 @@ class Trie{
         insertUtil(root,word,i,num);
         return;
     }
+    int solver(TrieNode* root){
+        if(root == NULL){
+            return 0;
+        }
+        
+        int ans = root->sum;
+        for(auto it: root->children){
+            if(it != NULL){
+                ans += solver(it);
+            }
+        }
+        return ans;
+    }
     int prefixSearchUtil(TrieNode* root,string &word,int i){
         int n = word.size();
         if(root == NULL){
             return 0;
         }
         if(i == n){
-            return root->sum;
+            int ans = solver(root);
+            return ans;
         }
         
         char t = word[i];
@@ -89,11 +103,11 @@ public:
     }
     
     void insert(string key, int val) {
-        // int reval = trieObj->searchWord(key);
-        int reval = mp[key];
-        // cout<<reval<<endl;
-        mp[key] = val;
-        val = -reval+val;
+        
+        // int reval = mp[key];
+        // // cout<<reval<<endl;
+        // mp[key] = val;
+        // val = -reval+val;
         
         trieObj->insert(key,val);
         return;
