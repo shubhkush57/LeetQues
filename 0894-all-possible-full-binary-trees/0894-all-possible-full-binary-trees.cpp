@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    vector<TreeNode*> solve(int n){
+    vector<TreeNode*> solve(int n,unordered_map<int,vector<TreeNode*>>&mp){
         vector<TreeNode*>ans;
         if(n == 1){
             TreeNode* root = new TreeNode(0);
@@ -21,9 +21,12 @@ public:
         if(n == 2){
             return ans;
         }
+        if(mp.count(n)){
+            return mp[n];
+        }
         for(int i = 2;i<=n-1;i++){
-            vector<TreeNode*> left = solve(i-1);
-            vector<TreeNode*> right = solve(n-i);
+            vector<TreeNode*> left = solve(i-1,mp);
+            vector<TreeNode*> right = solve(n-i,mp);
             for(auto it1: left){
                 for(auto it2: right){
                     TreeNode* root = new TreeNode(0);
@@ -33,10 +36,11 @@ public:
                 }
             }
         }
-        return ans;
+        return mp[n] = ans;
     }
     vector<TreeNode*> allPossibleFBT(int n) {
         // node have 0 or two childrent.
-        return solve(n);
+        unordered_map<int,vector<TreeNode*>>mp;
+        return solve(n,mp);
     }
 };
