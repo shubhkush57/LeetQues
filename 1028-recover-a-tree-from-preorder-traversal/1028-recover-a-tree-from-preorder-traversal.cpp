@@ -16,7 +16,6 @@ public:
         TreeNode* root;
         unordered_map<int,TreeNode*>mp;
         int n = traversal.size();
-        vector<TreeNode*>vis(1000,NULL);
         bool firsttime = true;
         while(i<n){
             int val = 0;
@@ -35,14 +34,6 @@ public:
                 root = temp;
             }
             else{
-                // if(vis[count-1] == NULL || vis[count-1]->left != NULL){
-                //     mp[count-1]->left = temp;
-                //     vis[count-1] = mp[count-1];
-                // }
-                // else{
-                //     mp[count-1]->right  =temp;
-                //     vis[count-1] = NULL;
-                // }
                 if(mp[count-1]->left == NULL){
                     mp[count-1]->left= temp;
                 }
