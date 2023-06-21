@@ -22,7 +22,7 @@ public:
     }
     int numRollsToTarget(int n, int k, int target) {
        vector<vector<int>>dp(n+1,vector<int>(target+1,0));
-        int ans = solve(n,k,target,dp);
+        // int ans = solve(n,k,target,dp);
         dp[0][0] = 1;
         for(int i = 1;i<= n;i++){
             for(int j = 0;j<=target;j++){
