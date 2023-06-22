@@ -1,31 +1,29 @@
 class Solution {
 public:
-    int solve(vector<int>&ps,int n,vector<int>&dp){
-        int siz = ps.size();
-        if(n == 0){
-            return 0;
-        }
-        if(dp[n] != -1){
-            return dp[n];
-        }
-        int ans = n;
-        for(int j = 0;j<siz;j++){
-            // we can take any number.
-            if(n-ps[j] >=0){
-                ans = min(ans,1+ solve(ps,n-ps[j],dp));
-            }
-        }
-        return dp[n] = ans;
+    bool isSqr(int n){
+        int s = sqrt(n);
+        return s* s == n;
     }
     int numSquares(int n) {
-        vector<int>ps;
-        for(int i = 1;i<=n;i++){
-            int  root = sqrt(i);
-            if(root*root == i){
-                ps.push_back(i);
+        if(isSqr(n)){
+            return 1;
+        }
+        
+        // 4 square problem
+        // 4^k [8m+7] 
+        // then the answer will be 4
+        while(n%4 == 0){
+            n = n>>2;
+        }
+        if(n%8 == 7){
+            return 4;
+        }
+        int s = sqrt(n);
+        for(int i = 1;i<=s;i++){
+            if(isSqr(n-i*i)){
+                return 2;
             }
         }
-        vector<int>dp(n+1,-1);
-        return solve(ps,n,dp);
+        return 3;
     }
 };
