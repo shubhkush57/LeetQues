@@ -23,7 +23,7 @@ public:
                     i++;
                 }
             if(temp > e){
-                cout<<temp<<endl;
+                // cout<<temp<<endl;
                 e = temp;
                 ans++;
                 i--;
