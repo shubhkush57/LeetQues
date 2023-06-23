@@ -14,7 +14,7 @@ public:
         }
         int ans = 0;
         ans = max(ans,solve(nums,i+1,sum));
-        ans = max(ans,nums[i]+ solve(nums,i+1,(sum+(nums[i]%3))%3));
+        ans = max(ans,nums[i]+ solve(nums,i+1,(sum+nums[i])%3));
         return dp[i][sum] = ans;
     }
     int maxSumDivThree(vector<int>& nums) {
