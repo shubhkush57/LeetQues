@@ -17,10 +17,14 @@ class Solution
         vector<int>dis(n,INT_MAX);
         dis[source] = 0;
         priority_queue<pp,vector<pp>,greater<pp>>pq;
+        // les't make it fast.
+        vector<int>proceed(n,false);
         pq.push({0,source});
         while(!pq.empty()){
             pp f= pq.top();pq.pop();
             int node = f.second;
+            if(proceed[node])continue;
+            proceed[node] = true;
             int distance = f.first;
             for(auto it: adj[node]){
                 int newnode = it[0];
