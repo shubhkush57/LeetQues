@@ -7,43 +7,29 @@ class Solution
 {
 	public:
 	//Function to return list containing vertices in Topological order. 
+	vector<int>topo;
+	void dfs(vector<int> adj[],vector<bool>& vis,int node){
+	    vis[node] = true;
+	    for(auto it: adj[node]){
+	        if(vis[it] == false){
+	            dfs(adj,vis,it);
+	        }
+	    }
+	    topo.push_back(node);
+	    return;
+	}
 	vector<int> topoSort(int n, vector<int> adj[]) 
 	{
 	    // code here
-	    // we have to find the topological sorting.
-	    // kahs' algo.....
-	    vector<int>indegree(n,0);
-	    for(int i = 0;i<n;i++){
-	        for(auto it: adj[i]){
-	            indegree[it]++;
-	        }
-	    }
-	    queue<int>q;
-	    vector<int>topo;
+	    // using dfs since it is a dag gaph so toposort is always possible.
+	   // vector<int>topo;
 	    vector<bool>vis(n,false);
 	    for(int i = 0;i<n;i++){
-	        if(indegree[i] == 0){
-	            q.push(i);
-	            vis[i] = true;
+	        if(vis[i] == false){
+	            dfs(adj,vis,i);
 	        }
 	    }
-	    
-	    while(!q.empty()){
-	        int t= q.size();
-	        while(t--){
-	            int f = q.front();q.pop();
-	            topo.push_back(f);
-	            for(auto it: adj[f]){
-	                if(vis[it] == false){
-	                    indegree[it]--;
-	                    if(indegree[it] == 0){
-	                        q.push(it);
-	                        vis[it] = true;
-	                    }
-	                }
-	            }
-	        }
-	    }
+	    reverse(topo.begin(),topo.end());
 	    return topo;
 	}
 };
